@@ -91,6 +91,7 @@ void Map::move(char arrow)
                     setElement(char_row-2, char_col, BOX_ON_DEST); // 목적지에 박스가 들어갔음을 표시
                 }
             }
+	    break;
         
         case 75: // <- 입력
             int loc = vec[char_row][char_col]; // 캐릭터의 현재 위치
@@ -122,6 +123,7 @@ void Map::move(char arrow)
                     setElement(char_row, char_col-2, BOX_ON_DEST); // 목적지에 박스가 들어갔음을 표시
                 }
             }
+	    break;
 
         case 77: // -> 입력
             int loc = vec[char_row][char_col]; // 캐릭터의 현재 위치
@@ -153,6 +155,7 @@ void Map::move(char arrow)
                     setElement(char_row, char_col+2, BOX_ON_DEST); // 목적지에 박스가 들어갔음을 표시
                 }
             }
+	    break;
         
         case 80: // ↓ 입력
             int loc = vec[char_row][char_col]; // 캐릭터의 현재 위치
@@ -184,13 +187,14 @@ void Map::move(char arrow)
                     setElement(char_row+2, char_col, BOX_ON_DEST); // 목적지에 박스가 들어갔음을 표시
                 }
             }
+	    break;
             
     }
 }
 
 
 
-
+/*
 Map map1({
         {4, 4, 1, 1, 1, 1, 4, 4, 4, 4},
 		{4, 4, 1, 3, 0, 1, 1, 4, 4, 4},
@@ -255,3 +259,4 @@ Map map5({
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
     });
+    */

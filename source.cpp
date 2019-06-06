@@ -1,7 +1,10 @@
 #include <ncurses.h>
+#include <clocale>
+#include "pushBoxMap.hpp"
 
 int main()
 {
+	setlocale(LC_ALL, "");
 	
 	// 0 represents null space
 	// 1 represents wall
@@ -12,7 +15,7 @@ int main()
 	// 6 represents box on destination
 	
 
-	int map1[10][10] = {
+	Map map1({
 		{4, 4, 1, 1, 1, 1, 4, 4, 4, 4},
 		{4, 4, 1, 3, 0, 1, 1, 4, 4, 4},
 		{4, 4, 1, 3, 0, 0, 1, 4, 4, 4},
@@ -23,8 +26,8 @@ int main()
 		{4, 4, 4, 1, 0, 0, 1, 1, 1, 4},
 		{4, 4, 4, 1, 1, 1, 1, 4, 4, 4},
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
-    };
-
+    });
+	/*
 	int map2[10][10] = {
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
 		{4, 4, 1, 1, 1, 1, 1, 4, 4, 4},
@@ -74,6 +77,7 @@ int main()
 		{1, 0, 0, 3, 1, 0, 0, 0, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
+	*/
 
 	WINDOW *win1;
 	WINDOW *win2; // step 횟수
@@ -111,27 +115,27 @@ int main()
 
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			if (map1[i][j] == 0) {
+			if (map1.vec[i][j] == 0) {
 				attron(COLOR_PAIR(0));
 				mvprintw(8 + i, 11 + j, " ");
 				attroff(COLOR_PAIR(0));
 			}
-			else if (map1[i][j] == 1) {
+			else if (map1.vec[i][j] == 1) {
 				attron(COLOR_PAIR(1));
 				mvprintw(8 + i, 11 + j, " ");
 				attroff(COLOR_PAIR(1));
 			}
-			else if (map1[i][j] == 2) {
+			else if (map1.vec[i][j] == 2) {
 				attron(COLOR_PAIR(2));
 				mvprintw(8 + i, 11 + j, "#");
 				attroff(COLOR_PAIR(2));
 			}
-			else if (map1[i][j] == 3) {
+			else if (map1.vec[i][j] == 3) {
 				attron(COLOR_PAIR(3));
 				mvprintw(8 + i, 11 + j, "$");
 				attroff(COLOR_PAIR(3));
 			}
-			else if (map1[i][j] == 4) {
+			else if (map1.vec[i][j] == 4) {
 				attron(COLOR_PAIR(4));
 				mvprintw(8 + i, 11 + j, " ");				
 				attroff(COLOR_PAIR(4));
