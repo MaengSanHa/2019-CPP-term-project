@@ -15,25 +15,46 @@ const int NULL_SPACE=0, WALL=1, BOX=2, DEST=3, OUTSIDE=4, CHARACTER = 5, BOX_ON_
 class Map
 {
     public:
-        // member variables
-        int map[10][10];
-        int default_map[10][10]; // default value of map
-        int location_of_character[2]; // 
-
         // Constructor
+        // Default constructor
+        Map();
+
+        // Copy constructor
         Map(int map_of_stage[10][10]);
-        
+
         // member functions
         void setElement(int x, int y, int input);
-        void setCharacter(int x, int y);
+        void setCharacter(int x, int y); // charactor represent
         void move(char arrow);
         void find_character();
         int do_nothing();
+        void countDest(); // counts number of destination
+        void countBoxOnDest(); // counts number of boxes on destination
+
+        // member variables
+        int numDest; // number of destination
+        int numBoxOnDest; // number of boxes on destination
+        int map[10][10];
+        int default_map[10][10]; // default value of map
+        int location_of_character[2]; // array containing location of character
 };
+
+// 기본 생성자는 map을 빈 공간으로 채운다
+Map::Map()
+{
+    for(int i=0; i<10; i++)
+    {
+        for(int j=0; j<10; j++)
+        {
+            this->map[i][j] = 4;
+        }
+    }
+}
 
 // main에서 2차원 배열 map_of_stage 선언 후 map과 default_map에 복사
 Map::Map(int map_of_stage[10][10])
 {
+
     for(int i=0; i<10; i++)
     {
         for(int j=0; j<10; j++)
@@ -46,6 +67,36 @@ Map::Map(int map_of_stage[10][10])
         for(int j=0; j<10; j++)
         {
             this->default_map[i][j] = map_of_stage[i][j];
+        }
+    }
+}
+
+void Map::countDest()
+{
+    numDest = 0;
+    for(int i=0; i<10; ++i)
+    {
+        for(int j=0; j<10; ++j)
+        {
+            if(this->map[i][j]==DEST)
+            {
+                numDest++;
+            }
+        }
+    }
+}
+
+void Map::countBoxOnDest()
+{
+    numBoxOnDest = 0;
+    for(int i=0; i<10; ++i)
+    {
+        for(int j=0; j<10; ++j)
+        {
+            if(this->map[i][j]==BOX_ON_DEST)
+            {
+                numBoxOnDest++;
+            }
         }
     }
 }
@@ -94,7 +145,7 @@ void Map::move(char arrow)
     front of wall, or over 2 box -> don't move
     front of one box and not blocked -> move with box
     */
-   
+
     find_character(); // 캐릭터 현재 위치 탐색
     int char_row = location_of_character[0]; // 캐릭터의 현재 위치(행 값)
     int char_col = location_of_character[1]; // 캐릭터의 현재 위치(열 값)
@@ -234,4 +285,5 @@ void Map::move(char arrow)
         delete loc;
             
     }
+    countBoxOnDest();
 }
