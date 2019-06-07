@@ -51,7 +51,11 @@ Map::Map()
     }
 }
 
-// main에서 2차원 배열 map_of_stage 선언 후 map과 default_map에 복사
+/*
+main에서 2차원 배열 map_of_stage 선언 후 map과 default_map에 복사
+목적지의 갯수를 numDest에 저장
+*/
+
 Map::Map(int map_of_stage[10][10])
 {
 
@@ -69,6 +73,7 @@ Map::Map(int map_of_stage[10][10])
             this->default_map[i][j] = map_of_stage[i][j];
         }
     }
+    countDest();
 }
 
 void Map::countDest()
