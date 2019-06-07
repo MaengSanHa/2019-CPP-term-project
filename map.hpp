@@ -10,22 +10,22 @@ using namespace std;
 6 represents box on destination
 */
 
-// interface for push box map and game logic
-
 const int NULL_SPACE=0, WALL=1, BOX=2, DEST=3, OUTSIDE=4, CHARACTER = 5, BOX_ON_DEST=6;
 
 class Map
 {
     public:
+        // member variables
         int map[10][10];
         int default_map[10][10]; // default value of map
         int location_of_character[2]; // 
 
         // Constructor
         Map(int map_of_stage[10][10]);
-
+        
+        // member functions
         void setElement(int x, int y, int input);
-        void setCharacter(int x, int y); // charactor represent
+        void setCharacter(int x, int y);
         void move(char arrow);
         void find_character();
         int do_nothing();
@@ -62,12 +62,13 @@ void Map::setCharacter(int x, int y)
     this->map[x][y] = CHARACTER;
 }
 
-
+// if character cannot move, just return 0
 int Map::do_nothing()
 {
     return 0;
 }
 
+// search location of character and store it to location_of_character[][]
 void Map::find_character()
 {
     int row, col;
