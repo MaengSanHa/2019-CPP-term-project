@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <clocale>
-#include "pushBoxMap.hpp"
+#include "Map.cpp"
+#include "Map.h"
 
 int main()
 {
@@ -79,7 +80,7 @@ int main()
 	};
 	*/
 
-	WINDOW *win1;
+	WINDOW *win1; // 
 	WINDOW *win2; // step 횟수
 	WINDOW *win3; // push 횟수
 	WINDOW *win4; // level
@@ -115,27 +116,27 @@ int main()
 
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			if (map1.vec[i][j] == 0) {
+			if (map1[i][j] == 0) {
 				attron(COLOR_PAIR(0));
 				mvprintw(8 + i, 11 + j, " ");
 				attroff(COLOR_PAIR(0));
 			}
-			else if (map1.vec[i][j] == 1) {
+			else if (map1[i][j] == 1) {
 				attron(COLOR_PAIR(1));
 				mvprintw(8 + i, 11 + j, " ");
 				attroff(COLOR_PAIR(1));
 			}
-			else if (map1.vec[i][j] == 2) {
+			else if (map1[i][j] == 2) {
 				attron(COLOR_PAIR(2));
 				mvprintw(8 + i, 11 + j, "#");
 				attroff(COLOR_PAIR(2));
 			}
-			else if (map1.vec[i][j] == 3) {
+			else if (map1[i][j] == 3) {
 				attron(COLOR_PAIR(3));
 				mvprintw(8 + i, 11 + j, "$");
 				attroff(COLOR_PAIR(3));
 			}
-			else if (map1.vec[i][j] == 4) {
+			else if (map1[i][j] == 4) {
 				attron(COLOR_PAIR(4));
 				mvprintw(8 + i, 11 + j, " ");				
 				attroff(COLOR_PAIR(4));
