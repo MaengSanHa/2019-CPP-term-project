@@ -1,6 +1,5 @@
 #include <ncurses.h>
 #include <clocale>
-#include "Map.cpp"
 #include "Map.h"
 
 int main()
@@ -15,11 +14,10 @@ int main()
 	// 5 represents character
 	// 6 represents box on destination
 	
-
-	Map map1({
+	int map({
 		{4, 4, 1, 1, 1, 1, 4, 4, 4, 4},
 		{4, 4, 1, 3, 0, 1, 1, 4, 4, 4},
-		{4, 4, 1, 3, 0, 0, 1, 4, 4, 4},
+		{4, 4, 1, 3, 5, 0, 1, 4, 4, 4},
 		{4, 4, 1, 3, 0, 2, 1, 4, 4, 4},
 		{4, 4, 1, 1, 2, 0, 1, 1, 1, 4},
 		{4, 4, 4, 1, 0, 2, 0, 0, 1, 4},
@@ -27,7 +25,8 @@ int main()
 		{4, 4, 4, 1, 0, 0, 1, 1, 1, 4},
 		{4, 4, 4, 1, 1, 1, 1, 4, 4, 4},
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
-    });
+    	};
+	Map map1(map);
 	/*
 	int map2[10][10] = {
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
@@ -126,12 +125,12 @@ int main()
 				mvprintw(8 + i, 11 + j, " ");
 				attroff(COLOR_PAIR(1));
 			}
-			else if (map1[i][j] == 2) {
+			else if (map1[i][j] == 2) { // 상자
 				attron(COLOR_PAIR(2));
 				mvprintw(8 + i, 11 + j, "#");
 				attroff(COLOR_PAIR(2));
 			}
-			else if (map1[i][j] == 3) {
+			else if (map1[i][j] == 3) { // 목적지
 				attron(COLOR_PAIR(3));
 				mvprintw(8 + i, 11 + j, "$");
 				attroff(COLOR_PAIR(3));
