@@ -1,50 +1,10 @@
 #include <ncurses.h>
 #include <clocale>
 #include "Map.cpp"
+#include <string>
+using namespace std;
 
 
-/*
-	void PrintMap() 
-	{
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (map1.map[i][j] == 0) {
-					attron(COLOR_PAIR(0));
-					mvprintw(8 + i, 11 + j, " ");
-					attroff(COLOR_PAIR(0));
-				}
-				else if (map1.map[i][j] == 1) {
-					attron(COLOR_PAIR(1));
-					mvprintw(8 + i, 11 + j, " ");
-					attroff(COLOR_PAIR(1));
-				}
-				else if (map1.map[i][j] == 2) {
-					attron(COLOR_PAIR(2));
-					mvprintw(8 + i, 11 + j, "#");
-					attroff(COLOR_PAIR(2));
-				}
-				else if (map1.map[i][j] == 3) {
-					attron(COLOR_PAIR(3));
-					mvprintw(8 + i, 11 + j, "$");
-					attroff(COLOR_PAIR(3));
-				}
-				else if (map1.map[i][j] == 4) {
-					attron(COLOR_PAIR(4));
-					mvprintw(8 + i, 11 + j, " ");				
-					attroff(COLOR_PAIR(4));
-				}
-				else if (map1.map[i][j] == 5) {
-					attron(COLOR_PAIR(4));
-					mvprintw(8 + i, 11 + j, "C");				
-					attroff(COLOR_PAIR(4));
-				}
-			}
-
-		}
-	
-	}
-
-*/
 int main()
 {
 	setlocale(LC_ALL, "");
@@ -57,8 +17,7 @@ int main()
 	// 5 represents character
 	// 6 represents box on destination
 	
-
-	int map[10][10] = { // 35  44 55
+	int map[10][10] = {
 		{4, 4, 1, 1, 1, 1, 4, 4, 4, 4},
 		{4, 4, 1, 3, 0, 1, 1, 4, 4, 4},
 		{4, 4, 1, 3, 0, 0, 1, 4, 4, 4},
@@ -83,42 +42,56 @@ int main()
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
 	};
+	
+	int mapThree[10][10] = {
+		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
+		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
+		{4, 1, 1, 1, 1, 1, 1, 1, 1, 4},
+		{4, 1, 3, 0, 0, 0, 0, 0, 1, 4},
+		{4, 1, 0, 3, 0, 0, 0, 0, 1, 4},
+		{4, 1, 3, 0, 0, 0, 0, 0, 1, 4},
+		{4, 1, 1, 1, 1, 1, 0, 0, 1, 4},
+		{4, 4, 4, 4, 4, 1, 1, 1, 1, 4},
+		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
+		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
+	};
     
     Map map1(map);
     Map map2(mapTwo);
+    Map map3(mapThree);
 
-	WINDOW *win1; // 
-	WINDOW *win2; // step 횟수
-	WINDOW *win3; // push 횟수
-	WINDOW *win4; // level
+	WINDOW *win1; // Map1
+	WINDOW *win2; // Map2
+	WINDOW *win3; // Map3
+	WINDOW *win4; // step 횟수
+	WINDOW *win5; // push 횟수
+	WINDOW *win6; // end
 
 	initscr();
-	resize_term(25, 50);
+	resize_term(40, 50);
 	start_color();
 	init_pair(10, COLOR_BLACK, COLOR_WHITE);
 	init_pair(0, COLOR_BLACK, COLOR_BLUE);
 	init_pair(1, COLOR_BLACK, COLOR_GREEN);
 	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(3, COLOR_RED, COLOR_BLACK);
+	init_pair(3, COLOR_WHITE, COLOR_BLACK);
 	init_pair(4, COLOR_BLACK, COLOR_WHITE);
-	
-	
-	
+	init_pair(5, COLOR_RED, COLOR_BLACK);
 
 	border('|', '|', '-', '-', '+', '+', '+', '+');
 	mvprintw(1, 9, "Welcome To The Push Box Game!");
 	mvprintw(2, 12, "Press Any Key To Start");
 	refresh(); // 화면 업데이트. 화면 실제 출력
+	curs_set(0);
 	getch();
-	mvprintw(1, 9, "           Level 1           ");
-	mvprintw(2, 12, "                       ");
+	mvprintw(1, 9, "             Level 1           ");
+	mvprintw(2, 1, "------------------------------------------------");
 
-	win1 = newwin(12, 12, 7, 10);
-	
-		
+	win1 = newwin(12, 12, 16, 19);
+	wbkgd(win1, COLOR_PAIR(10));
 	wattron(win1, COLOR_PAIR(10));;
 	wborder(win1, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-	//wbkgd(win1, 'M');
+	
 	wrefresh(win1); // 화면 업데이트. win1 화면 실제 출력
 
 	// 박스랑 캐릭터 초기 위치 설정
@@ -132,43 +105,68 @@ int main()
 		for (int j = 0; j < 10; j++) {
 			if (map1.map[i][j] == 0) {
 				attron(COLOR_PAIR(0));
-				mvprintw(8 + i, 11 + j, " ");
+				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(0));
 			}
 			else if (map1.map[i][j] == 1) {
 				attron(COLOR_PAIR(1));
-				mvprintw(8 + i, 11 + j, " ");
+				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(1));
 			}
 			else if (map1.map[i][j] == 2) {
 				attron(COLOR_PAIR(2));
-				mvprintw(8 + i, 11 + j, "#");
+				mvprintw(17 + i, 20 + j, "\u2752");
 				attroff(COLOR_PAIR(2));
 			}
 			else if (map1.map[i][j] == 3) {
 				attron(COLOR_PAIR(3));
-				mvprintw(8 + i, 11 + j, "$");
+				mvprintw(17 + i, 20 + j, "\u2B1A");
 				attroff(COLOR_PAIR(3));
 			}
 			else if (map1.map[i][j] == 4) {
 				attron(COLOR_PAIR(4));
-				mvprintw(8 + i, 11 + j, " ");				
+				mvprintw(17 + i, 20 + j, " ");				
 				attroff(COLOR_PAIR(4));
 			}
 			else if (map1.map[i][j] == 5) {
 				attron(COLOR_PAIR(4));
-				mvprintw(8 + i, 11 + j, "C");				
+				mvprintw(17 + i, 20 + j, "C");				
 				attroff(COLOR_PAIR(4));
+			}
+			else if (map1.map[i][j] == 6) {
+				attron(COLOR_PAIR(5));
+				mvprintw(17 + i, 20 + j, "\u2752");				
+				attroff(COLOR_PAIR(5));
 			}
 		}
 	}
-
+	
+	win4 = newwin(5, 14, 7, 9);
+	wbkgd(win4, COLOR_PAIR(3));
+	wattron(win4, COLOR_PAIR(3));
+	//mvwprintw(win4, 9, 11, "STEP : &d", map1.numStep);
+	/*
+	char *msg;
+	msg[0] = (char)map1.numStep;
+	*/
+	string str = to_string(map1.numStep);
+	mvprintw(9, 20, str);
+	wborder(win4, '|', '|', '-', '-', '+', '+', '+', '+');
+	wrefresh(win4); // 화면 업데이트. win4 화면 실제 출력
+	
+	win5 = newwin(5, 14, 7, 27);
+	wbkgd(win5, COLOR_PAIR(3));
+	wattron(win5, COLOR_PAIR(3));
+	mvprintw(9, 29, "PUSH : ");
+	wborder(win5, '|', '|', '-', '-', '+', '+', '+', '+');
+	wrefresh(win5); // 화면 업데이트. win4 화면 실제 출력
 
 	refresh();
 
 	curs_set(0);
 	int ch;
-	while (true) {
+	
+	while (map1.numDest != map1.numBoxOnDest) {
 		keypad(stdscr, true);
 		//PrintMap();
 		ch = getch();
@@ -179,38 +177,41 @@ int main()
 				for (int j = 0; j < 10; j++) {
 					if (map1.map[i][j] == 0) {
 						attron(COLOR_PAIR(0));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
 					else if (map1.map[i][j] == 1) {
 						attron(COLOR_PAIR(1));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
 					else if (map1.map[i][j] == 2) {
 						attron(COLOR_PAIR(2));
-						mvprintw(8 + i, 11 + j, "#");
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
 					else if (map1.map[i][j] == 3) {
 						attron(COLOR_PAIR(3));
-						mvprintw(8 + i, 11 + j, "$");
+						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
 					else if (map1.map[i][j] == 4) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");				
 						attroff(COLOR_PAIR(4));
 					}
 					else if (map1.map[i][j] == 5) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");				
 						attroff(COLOR_PAIR(4));
 					}
+					else if (map1.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
+					}
 				}
-
 			}
-
 		}
 		else if (ch == KEY_LEFT) {
 			map1.move(75); // 왼쪽 
@@ -218,37 +219,43 @@ int main()
 				for (int j = 0; j < 10; j++) {
 					if (map1.map[i][j] == 0) {
 						attron(COLOR_PAIR(0));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
 					else if (map1.map[i][j] == 1) {
 						attron(COLOR_PAIR(1));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
 					else if (map1.map[i][j] == 2) {
 						attron(COLOR_PAIR(2));
-						mvprintw(8 + i, 11 + j, "#");
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
 					else if (map1.map[i][j] == 3) {
 						attron(COLOR_PAIR(3));
-						mvprintw(8 + i, 11 + j, "$");
+						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
 					else if (map1.map[i][j] == 4) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");				
 						attroff(COLOR_PAIR(4));
 					}
 					else if (map1.map[i][j] == 5) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");				
 						attroff(COLOR_PAIR(4));
+					}
+					else if (map1.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
 					}
 				}
 
 			}
+
 		}
 		else if (ch == KEY_RIGHT) {
 			map1.move(77); // 오른쪽 
@@ -256,36 +263,40 @@ int main()
 				for (int j = 0; j < 10; j++) {
 					if (map1.map[i][j] == 0) {
 						attron(COLOR_PAIR(0));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
 					else if (map1.map[i][j] == 1) {
 						attron(COLOR_PAIR(1));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
 					else if (map1.map[i][j] == 2) {
 						attron(COLOR_PAIR(2));
-						mvprintw(8 + i, 11 + j, "#");
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
 					else if (map1.map[i][j] == 3) {
 						attron(COLOR_PAIR(3));
-						mvprintw(8 + i, 11 + j, "$");
+						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
 					else if (map1.map[i][j] == 4) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");				
 						attroff(COLOR_PAIR(4));
 					}
 					else if (map1.map[i][j] == 5) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");				
 						attroff(COLOR_PAIR(4));
 					}
+					else if (map1.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
+					}
 				}
-
 			}
 		}
 		else if (ch == KEY_DOWN) {
@@ -294,51 +305,53 @@ int main()
 				for (int j = 0; j < 10; j++) {
 					if (map1.map[i][j] == 0) {
 						attron(COLOR_PAIR(0));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
 					else if (map1.map[i][j] == 1) {
 						attron(COLOR_PAIR(1));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
 					else if (map1.map[i][j] == 2) {
 						attron(COLOR_PAIR(2));
-						mvprintw(8 + i, 11 + j, "#");
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
 					else if (map1.map[i][j] == 3) {
 						attron(COLOR_PAIR(3));
-						mvprintw(8 + i, 11 + j, "$");
+						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
 					else if (map1.map[i][j] == 4) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");				
 						attroff(COLOR_PAIR(4));
 					}
 					else if (map1.map[i][j] == 5) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");				
 						attroff(COLOR_PAIR(4));
 					}
+					else if (map1.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
+					}
 				}
-
 			}
 		}	
 	}
 
-//두번째맵
+	//두번째맵
 	getch();
-	mvprintw(1, 9, "           Level 2           ");
-	mvprintw(2, 12, "                       ");
+	mvprintw(1, 10, "             Level 2           ");
+	mvprintw(2, 1, "------------------------------------------------");
 
-	win2 = newwin(12, 12, 7, 10);
-	
-		
-	wattron(win2, COLOR_PAIR(10));;
+	win2 = newwin(12, 12, 16, 19);
+	wbkgd(win2, COLOR_PAIR(10));
+	wattron(win2, COLOR_PAIR(10));
 	wborder(win2, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-	//wbkgd(win1, 'M');
 	wrefresh(win2); // 화면 업데이트. win1 화면 실제 출력
 
 	// 박스랑 캐릭터 초기 위치 설정
@@ -352,43 +365,46 @@ int main()
 		for (int j = 0; j < 10; j++) {
 			if (map2.map[i][j] == 0) {
 				attron(COLOR_PAIR(0));
-				mvprintw(8 + i, 11 + j, " ");
+				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(0));
 			}
 			else if (map2.map[i][j] == 1) {
 				attron(COLOR_PAIR(1));
-				mvprintw(8 + i, 11 + j, " ");
+				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(1));
 			}
 			else if (map2.map[i][j] == 2) {
 				attron(COLOR_PAIR(2));
-				mvprintw(8 + i, 11 + j, "#");
+				mvprintw(17 + i, 20 + j, "\u2752");
 				attroff(COLOR_PAIR(2));
 			}
 			else if (map2.map[i][j] == 3) {
 				attron(COLOR_PAIR(3));
-				mvprintw(8 + i, 11 + j, "$");
+				mvprintw(17 + i, 20 + j, "\u2B1A");
 				attroff(COLOR_PAIR(3));
 			}
 			else if (map2.map[i][j] == 4) {
 				attron(COLOR_PAIR(4));
-				mvprintw(8 + i, 11 + j, " ");				
+				mvprintw(17 + i, 20 + j, " ");				
 				attroff(COLOR_PAIR(4));
 			}
 			else if (map2.map[i][j] == 5) {
 				attron(COLOR_PAIR(4));
-				mvprintw(8 + i, 11 + j, "C");				
+				mvprintw(17 + i, 20 + j, "C");				
 				attroff(COLOR_PAIR(4));
+			}
+			else if (map2.map[i][j] == 6) {
+				attron(COLOR_PAIR(5));
+				mvprintw(17 + i, 20 + j, "\u2752");				
+				attroff(COLOR_PAIR(5));
 			}
 		}
 	}
 
-
 	refresh();
-
 	curs_set(0);
 	int ch2;
-	while (true) {
+	while (map2.numDest != map2.numBoxOnDest) {
 		keypad(stdscr, true);
 		//PrintMap();
 		ch2 = getch();
@@ -399,33 +415,38 @@ int main()
 				for (int j = 0; j < 10; j++) {
 					if (map2.map[i][j] == 0) {
 						attron(COLOR_PAIR(0));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
 					else if (map2.map[i][j] == 1) {
 						attron(COLOR_PAIR(1));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
 					else if (map2.map[i][j] == 2) {
 						attron(COLOR_PAIR(2));
-						mvprintw(8 + i, 11 + j, "#");
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
 					else if (map2.map[i][j] == 3) {
 						attron(COLOR_PAIR(3));
-						mvprintw(8 + i, 11 + j, "$");
+						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
 					else if (map2.map[i][j] == 4) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");				
 						attroff(COLOR_PAIR(4));
 					}
 					else if (map2.map[i][j] == 5) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");				
 						attroff(COLOR_PAIR(4));
+					}
+					else if (map2.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
@@ -436,33 +457,38 @@ int main()
 				for (int j = 0; j < 10; j++) {
 					if (map2.map[i][j] == 0) {
 						attron(COLOR_PAIR(0));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
 					else if (map2.map[i][j] == 1) {
 						attron(COLOR_PAIR(1));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
 					else if (map2.map[i][j] == 2) {
 						attron(COLOR_PAIR(2));
-						mvprintw(8 + i, 11 + j, "#");
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
 					else if (map2.map[i][j] == 3) {
 						attron(COLOR_PAIR(3));
-						mvprintw(8 + i, 11 + j, "$");
+						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
 					else if (map2.map[i][j] == 4) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");				
 						attroff(COLOR_PAIR(4));
 					}
 					else if (map2.map[i][j] == 5) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");				
 						attroff(COLOR_PAIR(4));
+					}
+					else if (map2.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
@@ -473,33 +499,38 @@ int main()
 				for (int j = 0; j < 10; j++) {
 					if (map2.map[i][j] == 0) {
 						attron(COLOR_PAIR(0));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
 					else if (map2.map[i][j] == 1) {
 						attron(COLOR_PAIR(1));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
 					else if (map2.map[i][j] == 2) {
 						attron(COLOR_PAIR(2));
-						mvprintw(8 + i, 11 + j, "#");
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
 					else if (map2.map[i][j] == 3) {
 						attron(COLOR_PAIR(3));
-						mvprintw(8 + i, 11 + j, "$");
+						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
 					else if (map2.map[i][j] == 4) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");				
 						attroff(COLOR_PAIR(4));
 					}
 					else if (map2.map[i][j] == 5) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");				
 						attroff(COLOR_PAIR(4));
+					}
+					else if (map2.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
@@ -510,42 +541,295 @@ int main()
 				for (int j = 0; j < 10; j++) {
 					if (map2.map[i][j] == 0) {
 						attron(COLOR_PAIR(0));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
 					else if (map2.map[i][j] == 1) {
 						attron(COLOR_PAIR(1));
-						mvprintw(8 + i, 11 + j, " ");
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
 					else if (map2.map[i][j] == 2) {
 						attron(COLOR_PAIR(2));
-						mvprintw(8 + i, 11 + j, "#");
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
 					else if (map2.map[i][j] == 3) {
 						attron(COLOR_PAIR(3));
-						mvprintw(8 + i, 11 + j, "$");
+						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
 					else if (map2.map[i][j] == 4) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");				
 						attroff(COLOR_PAIR(4));
 					}
 					else if (map2.map[i][j] == 5) {
 						attron(COLOR_PAIR(4));
-						mvprintw(8 + i, 11 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");				
 						attroff(COLOR_PAIR(4));
+					}
+					else if (map2.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
 		}	
 	}
 
+	//세번째맵
+	getch();
+	mvprintw(1, 10, "             Level 3           ");
+	mvprintw(2, 1, "------------------------------------------------");
+
+	win3 = newwin(12, 12, 16, 19);
+	
+	wbkgd(win3, COLOR_PAIR(10));
+	wattron(win3, COLOR_PAIR(10));
+	wborder(win3, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+	wrefresh(win3); // 화면 업데이트. win1 화면 실제 출력
+
+	// 박스랑 캐릭터 초기 위치 설정
+	map3.setElement(4, 4, 2);
+	map3.setElement(4, 5, 2);
+	map3.setElement(4, 6, 2);
+	map3.setCharacter(4, 7);
+ 	
+ 	// 처음 맵 출력 
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			if (map3.map[i][j] == 0) {
+				attron(COLOR_PAIR(0));
+				mvprintw(17 + i, 20 + j, " ");
+				attroff(COLOR_PAIR(0));
+			}
+			else if (map3.map[i][j] == 1) {
+				attron(COLOR_PAIR(1));
+				mvprintw(17 + i, 20 + j, " ");
+				attroff(COLOR_PAIR(1));
+			}
+			else if (map3.map[i][j] == 2) {
+				attron(COLOR_PAIR(2));
+				mvprintw(17 + i, 20 + j, "\u2752");
+				attroff(COLOR_PAIR(2));
+			}
+			else if (map3.map[i][j] == 3) {
+				attron(COLOR_PAIR(3));
+				mvprintw(17 + i, 20 + j, "\u2B1A");
+				attroff(COLOR_PAIR(3));
+			}
+			else if (map3.map[i][j] == 4) {
+				attron(COLOR_PAIR(4));
+				mvprintw(17 + i, 20 + j, " ");				
+				attroff(COLOR_PAIR(4));
+			}
+			else if (map3.map[i][j] == 5) {
+				attron(COLOR_PAIR(4));
+				mvprintw(17 + i, 20 + j, "C");				
+				attroff(COLOR_PAIR(4));
+			}
+			else if (map3.map[i][j] == 6) {
+				attron(COLOR_PAIR(5));
+				mvprintw(17 + i, 20 + j, "\u2752");				
+				attroff(COLOR_PAIR(5));
+			}
+		}
+	}
+
+	refresh();
+	curs_set(0);
+	int ch3;
+	while (map3.numDest != map3.numBoxOnDest) {
+		keypad(stdscr, true);
+		//PrintMap();
+		ch3 = getch();
+		if (ch3 == KEY_UP) {
+			map3.move(72); // 위
+			// 바뀔 때마다 맵 출력
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (map3.map[i][j] == 0) {
+						attron(COLOR_PAIR(0));
+						mvprintw(17 + i, 20 + j, " ");
+						attroff(COLOR_PAIR(0));
+					}
+					else if (map3.map[i][j] == 1) {
+						attron(COLOR_PAIR(1));
+						mvprintw(17 + i, 20 + j, " ");
+						attroff(COLOR_PAIR(1));
+					}
+					else if (map3.map[i][j] == 2) {
+						attron(COLOR_PAIR(2));
+						mvprintw(17 + i, 20 + j, "\u2752");
+						attroff(COLOR_PAIR(2));
+					}
+					else if (map3.map[i][j] == 3) {
+						attron(COLOR_PAIR(3));
+						mvprintw(17 + i, 20 + j, "\u2B1A");
+						attroff(COLOR_PAIR(3));
+					}
+					else if (map3.map[i][j] == 4) {
+						attron(COLOR_PAIR(4));
+						mvprintw(17 + i, 20 + j, " ");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map3.map[i][j] == 5) {
+						attron(COLOR_PAIR(4));
+						mvprintw(17 + i, 20 + j, "C");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map3.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
+					}
+				}
+			}
+		}
+		else if (ch3 == KEY_LEFT) {
+			map3.move(75); // 왼쪽 
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (map3.map[i][j] == 0) {
+						attron(COLOR_PAIR(0));
+						mvprintw(17 + i, 20 + j, " ");
+						attroff(COLOR_PAIR(0));
+					}
+					else if (map3.map[i][j] == 1) {
+						attron(COLOR_PAIR(1));
+						mvprintw(17 + i, 20 + j, " ");
+						attroff(COLOR_PAIR(1));
+					}
+					else if (map3.map[i][j] == 2) {
+						attron(COLOR_PAIR(2));
+						mvprintw(17 + i, 20 + j, "\u2752");
+						attroff(COLOR_PAIR(2));
+					}
+					else if (map3.map[i][j] == 3) {
+						attron(COLOR_PAIR(3));
+						mvprintw(17 + i, 20 + j, "\u2B1A");
+						attroff(COLOR_PAIR(3));
+					}
+					else if (map3.map[i][j] == 4) {
+						attron(COLOR_PAIR(4));
+						mvprintw(17 + i, 20 + j, " ");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map3.map[i][j] == 5) {
+						attron(COLOR_PAIR(4));
+						mvprintw(17 + i, 20 + j, "C");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map3.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
+					}
+				}
+			}
+		}
+		else if (ch3 == KEY_RIGHT) {
+			map3.move(77); // 오른쪽 
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (map3.map[i][j] == 0) {
+						attron(COLOR_PAIR(0));
+						mvprintw(17 + i, 20 + j, " ");
+						attroff(COLOR_PAIR(0));
+					}
+					else if (map3.map[i][j] == 1) {
+						attron(COLOR_PAIR(1));
+						mvprintw(17 + i, 20 + j, " ");
+						attroff(COLOR_PAIR(1));
+					}
+					else if (map3.map[i][j] == 2) {
+						attron(COLOR_PAIR(2));
+						mvprintw(17 + i, 20 + j, "\u2752");
+						attroff(COLOR_PAIR(2));
+					}
+					else if (map3.map[i][j] == 3) {
+						attron(COLOR_PAIR(3));
+						mvprintw(17 + i, 20 + j, "\u2B1A");
+						attroff(COLOR_PAIR(3));
+					}
+					else if (map3.map[i][j] == 4) {
+						attron(COLOR_PAIR(4));
+						mvprintw(17 + i, 20 + j, " ");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map3.map[i][j] == 5) {
+						attron(COLOR_PAIR(4));
+						mvprintw(17 + i, 20 + j, "C");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map3.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
+					}
+				}
+			}
+		}
+		else if (ch3 == KEY_DOWN) {
+			map3.move(80); // 아래
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (map3.map[i][j] == 0) {
+						attron(COLOR_PAIR(0));
+						mvprintw(17 + i, 20 + j, " ");
+						attroff(COLOR_PAIR(0));
+					}
+					else if (map3.map[i][j] == 1) {
+						attron(COLOR_PAIR(1));
+						mvprintw(17 + i, 20 + j, " ");
+						attroff(COLOR_PAIR(1));
+					}
+					else if (map3.map[i][j] == 2) {
+						attron(COLOR_PAIR(2));
+						mvprintw(17 + i, 20 + j, "\u2752");
+						attroff(COLOR_PAIR(2));
+					}
+					else if (map3.map[i][j] == 3) {
+						attron(COLOR_PAIR(3));
+						mvprintw(17 + i, 20 + j, "\u2B1A");
+						attroff(COLOR_PAIR(3));
+					}
+					else if (map3.map[i][j] == 4) {
+						attron(COLOR_PAIR(4));
+						mvprintw(17 + i, 20 + j, " ");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map3.map[i][j] == 5) {
+						attron(COLOR_PAIR(4));
+						mvprintw(17 + i, 20 + j, "C");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map3.map[i][j] == 6) {
+						attron(COLOR_PAIR(5));
+						mvprintw(17 + i, 20 + j, "\u2752");				
+						attroff(COLOR_PAIR(5));
+					}
+				}
+			}
+		}	
+	}
 
 	getch();
-	delwin(win2); // win1 소멸
+	delwin(win3); // win3 소멸
+	delwin(win4); 
+	delwin(win5);
+	 
+	win6 = newwin(31, 41, 5, 5);
+	wbkgd(win6, COLOR_PAIR(10));
+	wattron(win6, COLOR_PAIR(3));
+	mvwprintw(win6, 15, 17, "SUCCESS!");
+	wborder(win6, '@','@','@','@','@','@','@','@');
+	wrefresh(win6);
+	getch();
+	delwin(win6);
+	
 	endwin(); // ncurses mode 종료
 	
 	return 0;
