@@ -55,7 +55,7 @@ Map& Map::move(char arrow){
         Unicode 80 represents 'down'
         */
         case 72 : // ↑ 입력
-            if (this->map[char_row-1][char_col] == 0){ // 캐릭터 위쪽이 비어있으면 캐릭터를 위쪽으로 한칸 전진
+            if ((this->map[char_row-1][char_col] == 0)||(this->map[char_row-1][char_col] == 3)){ // 캐릭터 위쪽이 비어있거나 목적지이면 캐릭터를 위쪽으로 한칸 전진
                 setCharacter(char_row-1, char_col);
                 setElement(char_row, char_col, default_map[char_row][char_col]);
             }
@@ -80,7 +80,7 @@ Map& Map::move(char arrow){
             break;
         
         case 75 : // <- 입력
-            if (map[char_row][char_col-1] == 0){ // 캐릭터 왼쪽이 비어있으면 캐릭터를 왼쪽으로 한칸 전진
+            if ((map[char_row][char_col-1] == 0)||(map[char_row][char_col-1] == 3)){ // 캐릭터 왼쪽이 비어있거나 목적지이면 캐릭터를 왼쪽으로 한칸 전진
                 setCharacter(char_row, char_col-1);
                 setElement(char_row, char_col, default_map[char_row][char_col]);
             }
@@ -105,7 +105,7 @@ Map& Map::move(char arrow){
             break;
 
         case 77 : // -> 입력
-            if (map[char_row][char_col+1] == 0){ // 캐릭터 오른쪽이 비어있으면 캐릭터를 오른쪽으로 한칸 전진
+            if ((map[char_row][char_col+1] == 0)||(map[char_row][char_col+1] == 3)){ // 캐릭터 오른쪽이 비어있거나 목적지이면 캐릭터를 오른쪽으로 한칸 전진
                 setCharacter(char_row, char_col+1);
                 setElement(char_row, char_col, default_map[char_row][char_col]);
             }
@@ -130,7 +130,7 @@ Map& Map::move(char arrow){
             break;
         
         case 80 : // ↓ 입력
-            if (map[char_row+1][char_col] == 0){ // 캐릭터 아래쪽이 비어있으면 캐릭터를 아래쪽으로 한칸 전진
+            if ((map[char_row+1][char_col] == 0)||(map[char_row+1][char_col] == 3)){ // 캐릭터 아래쪽이 비어있거나 목적지이면 캐릭터를 아래쪽으로 한칸 전진
                 setCharacter(char_row+1, char_col);
                 setElement(char_row, char_col, default_map[char_row][char_col]);
             }
