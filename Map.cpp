@@ -77,13 +77,38 @@ Map& Map::move(char arrow){
                     increaseNumStep();
                     increaseNumPush();
                 }
-                else if (this->map[char_row-2][char_col] == 3){ // 박스 앞이 목적지이면               
+                else if (this->map[char_row-2][char_col] == 3){ // 박스 앞이 목적지이면
                     setElement(char_row, char_col, default_map[char_row][char_col]); // 캐릭터 있던 곳은 기본 값
                     setCharacter(char_row-1, char_col); // 캐릭터와 박스가 함께 위쪽으로 이동
                     setElement(char_row-2, char_col, 6); // 목적지에 박스가 들어갔음을 표시
                     increaseNumStep();
                     increaseNumPush();
                 }
+            }
+            else if (this->map[char_row-1][char_col] == 6){ // 캐릭터 위쪽이 BoxOnDest이면
+                if (this->map[char_row-2][char_col] == 0){ // BoxOnDest 앞이 비어있으면
+                    setElement(char_row, char_col, default_map[char_row][char_col]); // 캐릭터 있던 곳은 기본 값
+                    setCharacter(char_row-1, char_col);
+                    setElement(char_row-2, char_col, 2);
+                    increaseNumStep();
+                    increaseNumPush();
+                }
+                else if (this->map[char_row-2][char_col] == 1){ // BoxOnDest 앞이 벽이면
+                    do_nothing(); // 캐릭터 이동 불가능
+                }
+                else if (this->map[char_row-2][char_col] == 2){ // BoxOnDest 앞이 박스이면
+                    do_nothing(); // 캐릭터 이동 불가능
+                }
+                else if (this->map[char_row-2][char_col] == 3){ // BoxOnDest 앞이 목적지이면
+                    setElement(char_row, char_col, default_map[char_row][char_col]); // 캐릭터 있던 곳은 기본 값
+                    setCharacter(char_row-1, char_col); // 캐릭터 한칸 전진
+                    setElement(char_row-2, char_col, 6); // 박스도 한칸 전진
+                    increaseNumStep();
+                    increaseNumPush();
+                }
+                else if (this->map[char_row-2][char_col] == 6){ // BoxOnDest 앞이 BoxOnDest이면
+                    do_nothing();
+                }  
             }
             break;
         
@@ -115,6 +140,31 @@ Map& Map::move(char arrow){
                     increaseNumPush();
                 }
             }
+            else if (this->map[char_row][char_col-1] == 6){ // 캐릭터 왼쪽이 BoxOnDest이면
+                if (this->map[char_row][char_col-2] == 0){ // BoxOnDest 앞이 비어있으면
+                    setElement(char_row, char_col, default_map[char_row][char_col]); // 캐릭터 있던 곳은 기본 값
+                    setCharacter(char_row, char_col-1);
+                    setElement(char_row, char_col-2, 2);
+                    increaseNumStep();
+                    increaseNumPush();
+                }
+                else if (this->map[char_row][char_col-2] == 1){ // BoxOnDest 앞이 벽이면
+                    do_nothing(); // 캐릭터 이동 불가능
+                }
+                else if (this->map[char_row][char_col-2] == 2){ // BoxOnDest 앞이 박스이면
+                    do_nothing(); // 캐릭터 이동 불가능
+                }
+                else if (this->map[char_row][char_col-2] == 3){ // BoxOnDest 앞이 목적지이면
+                    setElement(char_row, char_col, default_map[char_row][char_col]); // 캐릭터 있던 곳은 기본 값
+                    setCharacter(char_row, char_col-1); // 캐릭터 한칸 전진
+                    setElement(char_row, char_col-2, 6); // 박스도 한칸 전진
+                    increaseNumStep();
+                    increaseNumPush();
+                }
+                else if (this->map[char_row][char_col-2] == 6){ // BoxOnDest 앞이 BoxOnDest이면
+                    do_nothing();
+                }  
+            }
             break;
 
         case 77 : // -> 입력
@@ -145,6 +195,31 @@ Map& Map::move(char arrow){
                     increaseNumPush();
                 }
             }
+            else if (this->map[char_row][char_col+1] == 6){ // 캐릭터 위쪽이 BoxOnDest이면
+                if (this->map[char_row][char_col+2] == 0){ // BoxOnDest 앞이 비어있으면
+                    setElement(char_row, char_col, default_map[char_row][char_col]); // 캐릭터 있던 곳은 기본 값
+                    setCharacter(char_row, char_col+1);
+                    setElement(char_row, char_col+2, 2);
+                    increaseNumStep();
+                    increaseNumPush();
+                }
+                else if (this->map[char_row][char_col+2] == 1){ // BoxOnDest 앞이 벽이면
+                    do_nothing(); // 캐릭터 이동 불가능
+                }
+                else if (this->map[char_row][char_col+2] == 2){ // BoxOnDest 앞이 박스이면
+                    do_nothing(); // 캐릭터 이동 불가능
+                }
+                else if (this->map[char_row][char_col+2] == 3){ // BoxOnDest 앞이 목적지이면
+                    setElement(char_row, char_col, default_map[char_row][char_col]); // 캐릭터 있던 곳은 기본 값
+                    setCharacter(char_row, char_col+1); // 캐릭터 한칸 전진
+                    setElement(char_row, char_col+2, 6); // 박스도 한칸 전진
+                    increaseNumStep();
+                    increaseNumPush();
+                }
+                else if (this->map[char_row][char_col+2] == 6){ // BoxOnDest 앞이 BoxOnDest이면
+                    do_nothing();
+                }  
+            }
             break;
         
         case 80 : // ↓ 입력
@@ -174,6 +249,31 @@ Map& Map::move(char arrow){
                     increaseNumStep();
                     increaseNumPush();
                 }
+            }
+            else if (this->map[char_row+1][char_col] == 6){ // 캐릭터 위쪽이 BoxOnDest이면
+                if (this->map[char_row+2][char_col] == 0){ // BoxOnDest 앞이 비어있으면
+                    setElement(char_row, char_col, default_map[char_row][char_col]); // 캐릭터 있던 곳은 기본 값
+                    setCharacter(char_row+1, char_col);
+                    setElement(char_row+2, char_col, 2);
+                    increaseNumStep();
+                    increaseNumPush();
+                }
+                else if (this->map[char_row+2][char_col] == 1){ // BoxOnDest 앞이 벽이면
+                    do_nothing(); // 캐릭터 이동 불가능
+                }
+                else if (this->map[char_row+2][char_col] == 2){ // BoxOnDest 앞이 박스이면
+                    do_nothing(); // 캐릭터 이동 불가능
+                }
+                else if (this->map[char_row+2][char_col] == 3){ // BoxOnDest 앞이 목적지이면
+                    setElement(char_row, char_col, default_map[char_row][char_col]); // 캐릭터 있던 곳은 기본 값
+                    setCharacter(char_row+1, char_col); // 캐릭터 한칸 전진
+                    setElement(char_row+2, char_col, 6); // 박스도 한칸 전진
+                    increaseNumStep();
+                    increaseNumPush();
+                }
+                else if (this->map[char_row+2][char_col] == 6){ // BoxOnDest 앞이 BoxOnDest이면
+                    do_nothing();
+                }  
             }
             break;             
     } // end switch-case
