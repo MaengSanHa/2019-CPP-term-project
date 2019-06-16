@@ -1,9 +1,15 @@
+/*
+터미널 창의 셀 간격 너비를 1.80로 바꾼다.
+level1, 2, 3을 모두 다 완료하면 success창이 뜨고 게임이 종료됨
+창 넘길 때는 엔터키!!!!!!!! 눌러주세요.
+
+
+*/
+
 #include <ncurses.h>
 #include <clocale>
 #include "Map.cpp"
-#include <string>
 using namespace std;
-
 
 int main()
 {
@@ -17,7 +23,7 @@ int main()
 	// 5 represents character
 	// 6 represents box on destination
 	
-	int map[10][10] = {
+	int mapOne[10][10] = {
 		{4, 4, 1, 1, 1, 1, 4, 4, 4, 4},
 		{4, 4, 1, 3, 0, 1, 1, 4, 4, 4},
 		{4, 4, 1, 3, 0, 0, 1, 4, 4, 4},
@@ -56,7 +62,7 @@ int main()
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
 	};
     
-    Map map1(map);
+    Map map1(mapOne);
     Map map2(mapTwo);
     Map map3(mapThree);
 
@@ -145,21 +151,16 @@ int main()
 	wbkgd(win4, COLOR_PAIR(3));
 	wattron(win4, COLOR_PAIR(3));
 	//mvwprintw(win4, 9, 11, "STEP : &d", map1.numStep);
-	/*
-	char *msg;
-	msg[0] = (char)map1.numStep;
-	*/
-	string str = to_string(map1.numStep);
-	mvprintw(9, 20, str);
+	mvprintw(9,12,"Step : %d",map1.numStep);
 	wborder(win4, '|', '|', '-', '-', '+', '+', '+', '+');
 	wrefresh(win4); // 화면 업데이트. win4 화면 실제 출력
 	
 	win5 = newwin(5, 14, 7, 27);
 	wbkgd(win5, COLOR_PAIR(3));
 	wattron(win5, COLOR_PAIR(3));
-	mvprintw(9, 29, "PUSH : ");
+	mvprintw(9,30,"PUSH : %d",map1.numPush);
 	wborder(win5, '|', '|', '-', '-', '+', '+', '+', '+');
-	wrefresh(win5); // 화면 업데이트. win4 화면 실제 출력
+	wrefresh(win5); // 화면 업데이트. win5 화면 실제 출력
 
 	refresh();
 
@@ -212,6 +213,8 @@ int main()
 					}
 				}
 			}
+			mvprintw(9,12,"Step : %d",map1.numStep);
+			mvprintw(9,30,"PUSH : %d",map1.numPush);
 		}
 		else if (ch == KEY_LEFT) {
 			map1.move(75); // 왼쪽 
@@ -255,6 +258,8 @@ int main()
 				}
 
 			}
+			mvprintw(9,12,"Step : %d",map1.numStep);
+			mvprintw(9,30,"PUSH : %d",map1.numPush);
 
 		}
 		else if (ch == KEY_RIGHT) {
@@ -298,6 +303,8 @@ int main()
 					}
 				}
 			}
+			mvprintw(9,12,"Step : %d",map1.numStep);
+			mvprintw(9,30,"PUSH : %d",map1.numPush);
 		}
 		else if (ch == KEY_DOWN) {
 			map1.move(80); // 아래
@@ -340,7 +347,9 @@ int main()
 					}
 				}
 			}
-		}	
+		}
+		mvprintw(9,12,"Step : %d",map1.numStep);
+		mvprintw(9,30,"PUSH : %d",map1.numPush);	
 	}
 
 	//두번째맵
@@ -352,14 +361,17 @@ int main()
 	wbkgd(win2, COLOR_PAIR(10));
 	wattron(win2, COLOR_PAIR(10));
 	wborder(win2, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-	wrefresh(win2); // 화면 업데이트. win1 화면 실제 출력
+	wrefresh(win2); // 화면 업데이트. win2 화면 실제 출력
 
 	// 박스랑 캐릭터 초기 위치 설정
 	map2.setElement(4, 3, 2);
 	map2.setElement(4, 4, 2);
 	map2.setElement(4, 5, 2);
 	map2.setCharacter(6, 4);
- 	
+ 	map2.numStep=0;
+ 	map2.numPush=0;
+ 	mvprintw(9,12,"Step : %d ",map2.numStep);
+	mvprintw(9,30,"PUSH : %d ",map2.numPush);
  	// 처음 맵 출력 
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -450,6 +462,8 @@ int main()
 					}
 				}
 			}
+			mvprintw(9,12,"Step : %d ",map2.numStep);
+			mvprintw(9,30,"PUSH : %d ",map2.numPush);
 		}
 		else if (ch2 == KEY_LEFT) {
 			map2.move(75); // 왼쪽 
@@ -492,6 +506,8 @@ int main()
 					}
 				}
 			}
+			mvprintw(9,12,"Step : %d ",map2.numStep);
+			mvprintw(9,30,"PUSH : %d ",map2.numPush);
 		}
 		else if (ch2 == KEY_RIGHT) {
 			map2.move(77); // 오른쪽 
@@ -534,6 +550,8 @@ int main()
 					}
 				}
 			}
+			mvprintw(9,12,"Step : %d ",map2.numStep);
+			mvprintw(9,30,"PUSH : %d ",map2.numPush);
 		}
 		else if (ch2 == KEY_DOWN) {
 			map2.move(80); // 아래
@@ -576,6 +594,8 @@ int main()
 					}
 				}
 			}
+			mvprintw(9,12,"Step : %d ",map2.numStep);
+			mvprintw(9,30,"PUSH : %d ",map2.numPush);
 		}	
 	}
 
@@ -589,14 +609,17 @@ int main()
 	wbkgd(win3, COLOR_PAIR(10));
 	wattron(win3, COLOR_PAIR(10));
 	wborder(win3, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-	wrefresh(win3); // 화면 업데이트. win1 화면 실제 출력
+	wrefresh(win3); // 화면 업데이트. win3 화면 실제 출력
 
 	// 박스랑 캐릭터 초기 위치 설정
 	map3.setElement(4, 4, 2);
 	map3.setElement(4, 5, 2);
 	map3.setElement(4, 6, 2);
 	map3.setCharacter(4, 7);
- 	
+ 	map3.numStep=0;
+ 	map3.numPush=0;
+ 	mvprintw(9,12,"Step : %d ",map3.numStep);
+	mvprintw(9,30,"PUSH : %d ",map3.numPush);
  	// 처음 맵 출력 
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -687,6 +710,8 @@ int main()
 					}
 				}
 			}
+			mvprintw(9,12,"Step : %d ",map3.numStep);
+			mvprintw(9,30,"PUSH : %d ",map3.numPush);
 		}
 		else if (ch3 == KEY_LEFT) {
 			map3.move(75); // 왼쪽 
@@ -729,6 +754,8 @@ int main()
 					}
 				}
 			}
+			mvprintw(9,12,"Step : %d ",map3.numStep);
+			mvprintw(9,30,"PUSH : %d ",map3.numPush);
 		}
 		else if (ch3 == KEY_RIGHT) {
 			map3.move(77); // 오른쪽 
@@ -771,6 +798,8 @@ int main()
 					}
 				}
 			}
+			mvprintw(9,12,"Step : %d ",map3.numStep);
+			mvprintw(9,30,"PUSH : %d ",map3.numPush);
 		}
 		else if (ch3 == KEY_DOWN) {
 			map3.move(80); // 아래
@@ -813,6 +842,8 @@ int main()
 					}
 				}
 			}
+			mvprintw(9,12,"Step : %d ",map3.numStep);
+			mvprintw(9,30,"PUSH : %d ",map3.numPush);
 		}	
 	}
 
