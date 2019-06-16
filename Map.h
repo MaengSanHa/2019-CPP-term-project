@@ -31,6 +31,8 @@ class Map{
         Map& do_nothing();
         Map& countDest();
         Map& countBoxOnDest();
+        Map& increaseNumStep();
+        Map& increaseNumPush();
 
         // Member Variables
         int numDest;
@@ -38,6 +40,8 @@ class Map{
         int map[10][10];
         int default_map[10][10];
         int location_of_character[2];
+        int numStep;
+        int numPush;
 
 };
 
