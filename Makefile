@@ -1,10 +1,10 @@
 HEADERS = Map.h
-SOURCES = Map.cpp
+SOURCES = Map.cpp main.cpp
 CC = g++
 CFLAGS = -std=c++11
-EXECUTABLE = main
-RM = rm -rf
+EXECUTABLE = pushbox
+RM = rm
 
-all : $(SOURCES) $(HEADERS) $(CC) $(CFLAGS) -o $(EXECUTABLE) $(SOURCES)
+all : $(CC) $(CFLAGS) -o $(EXECUTABLE) $(SOURCES) -lncursesw	# g++ -std=c++11 -o pushbox main.cpp -lncursesw
 
 clean : $(RM) *.o $(EXECUTABLE)
