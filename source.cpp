@@ -14,7 +14,7 @@ int main()
 	// 5 represents character
 	// 6 represents box on destination
 	
-	int map({
+	int map[10][10] = {
 		{4, 4, 1, 1, 1, 1, 4, 4, 4, 4},
 		{4, 4, 1, 3, 0, 1, 1, 4, 4, 4},
 		{4, 4, 1, 3, 5, 0, 1, 4, 4, 4},
@@ -115,27 +115,27 @@ int main()
 
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			if (map1[i][j] == 0) {
+			if (map1.map[i][j] == 0) {
 				attron(COLOR_PAIR(0));
 				mvprintw(8 + i, 11 + j, " ");
 				attroff(COLOR_PAIR(0));
 			}
-			else if (map1[i][j] == 1) {
+			else if (map1.map[i][j] == 1) {
 				attron(COLOR_PAIR(1));
 				mvprintw(8 + i, 11 + j, " ");
 				attroff(COLOR_PAIR(1));
 			}
-			else if (map1[i][j] == 2) { // 상자
+			else if (map1.map[i][j] == 2) { // 상자
 				attron(COLOR_PAIR(2));
 				mvprintw(8 + i, 11 + j, "#");
 				attroff(COLOR_PAIR(2));
 			}
-			else if (map1[i][j] == 3) { // 목적지
+			else if (map1.map[i][j] == 3) { // 목적지
 				attron(COLOR_PAIR(3));
 				mvprintw(8 + i, 11 + j, "$");
 				attroff(COLOR_PAIR(3));
 			}
-			else if (map1[i][j] == 4) {
+			else if (map1.map[i][j] == 4) {
 				attron(COLOR_PAIR(4));
 				mvprintw(8 + i, 11 + j, " ");				
 				attroff(COLOR_PAIR(4));
@@ -144,8 +144,6 @@ int main()
 
 	}
 	refresh();
-
-	
 	
 	getch();
 	delwin(win1); // win1 소멸
