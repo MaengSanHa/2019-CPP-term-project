@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <clocale>
-#include "Map.h"
+#include "Map.cpp"
+
 
 int main()
 {
@@ -14,6 +15,7 @@ int main()
 	// 5 represents character
 	// 6 represents box on destination
 	
+
 	int map[10][10] = {
 		{4, 4, 1, 1, 1, 1, 4, 4, 4, 4},
 		{4, 4, 1, 3, 0, 1, 1, 4, 4, 4},
@@ -25,59 +27,10 @@ int main()
 		{4, 4, 4, 1, 0, 0, 1, 1, 1, 4},
 		{4, 4, 4, 1, 1, 1, 1, 4, 4, 4},
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
-    	};
-	Map map1(map);
-	/*
-	int map2[10][10] = {
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-		{4, 4, 1, 1, 1, 1, 1, 4, 4, 4},
-		{4, 4, 1, 0, 0, 0, 1, 4, 4, 4},
-		{4, 4, 1, 3, 3, 3, 1, 4, 4, 4},
-		{4, 4, 1, 2, 2, 2, 1, 1, 4 ,4},
-		{4, 4, 1, 0, 0, 0, 0, 1, 4, 4},
-		{4 ,4, 1, 0, 0, 0, 0, 1, 4, 4},
-		{4, 4, 1, 1, 1, 1, 1, 1, 4, 4},
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
-	};
-
-	int map3[10][10] = {
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-		{4, 1, 1, 1, 1, 1, 1, 1, 1, 4},
-		{4, 1, 3, 0, 0, 0, 0, 0, 1, 4},
-		{4, 1, 0, 3, 2, 2, 2, 0, 1, 4},
-		{4, 1, 3, 0, 0, 0, 0, 0, 1, 4},
-		{4, 1, 1, 1, 1, 1, 0, 0, 1, 4},
-		{4, 4, 4, 4, 4, 1, 1, 1, 1, 4},
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
-	};
-
-	int map4[10][10] = {
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-		{4, 4, 1, 1, 1, 1, 1, 1, 1, 4},
-		{4, 4, 1, 0, 0, 0, 0, 0, 1, 4},
-		{4, 4, 1, 0, 3, 2, 3, 0, 1, 4},
-		{4, 4, 1, 0, 2, 3, 2, 0, 1, 4},
-		{4, 4, 1, 0, 3, 2, 3, 0, 1, 4},
-		{4, 4, 1, 0, 2, 3, 2, 0, 1, 4},
-		{4, 4, 1, 0, 0, 0, 0, 0, 1, 4},
-		{4, 4, 1, 1, 1, 1, 1, 1, 1, 4},
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
-	};
-
-	int map5[10][10] = {
-		{4, 1, 1, 1, 1, 4, 4, 4, 4, 4},
-		{4, 1, 0, 0, 1, 1, 1, 1, 4, 4},
-		{4, 1, 0, 0, 0, 0, 0, 1, 1, 4},
-		{1, 1, 0, 1, 1, 0, 0, 0, 1, 4},
-		{1, 3, 0, 3, 1, 0, 0, 2, 1, 1},
-		{1, 0, 0, 0, 1, 0, 2, 2, 0, 1},
-		{1, 0, 0, 3, 1, 0, 0, 0, 0, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-	};
-	*/
+    };
+    
+    Map map1(map);
+    
 
 	WINDOW *win1; // 
 	WINDOW *win2; // step 횟수
@@ -112,7 +65,7 @@ int main()
 	wborder(win1, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
 	//wbkgd(win1, 'M');
 	wrefresh(win1); // 화면 업데이트. win1 화면 실제 출력
-
+	
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
 			if (map1.map[i][j] == 0) {
@@ -125,12 +78,12 @@ int main()
 				mvprintw(8 + i, 11 + j, " ");
 				attroff(COLOR_PAIR(1));
 			}
-			else if (map1.map[i][j] == 2) { // 상자
+			else if (map1.map[i][j] == 2) {
 				attron(COLOR_PAIR(2));
 				mvprintw(8 + i, 11 + j, "#");
 				attroff(COLOR_PAIR(2));
 			}
-			else if (map1.map[i][j] == 3) { // 목적지
+			else if (map1.map[i][j] == 3) {
 				attron(COLOR_PAIR(3));
 				mvprintw(8 + i, 11 + j, "$");
 				attroff(COLOR_PAIR(3));
@@ -140,11 +93,223 @@ int main()
 				mvprintw(8 + i, 11 + j, " ");				
 				attroff(COLOR_PAIR(4));
 			}
+			else if (map1.map[i][j] == 5) {
+				attron(COLOR_PAIR(4));
+				mvprintw(8 + i, 11 + j, "C");				
+				attroff(COLOR_PAIR(4));
+			}
 		}
-
 	}
-	refresh();
+/*
+	void PrintMap() 
+	{
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (map1.map[i][j] == 0) {
+					attron(COLOR_PAIR(0));
+					mvprintw(8 + i, 11 + j, " ");
+					attroff(COLOR_PAIR(0));
+				}
+				else if (map1.map[i][j] == 1) {
+					attron(COLOR_PAIR(1));
+					mvprintw(8 + i, 11 + j, " ");
+					attroff(COLOR_PAIR(1));
+				}
+				else if (map1.map[i][j] == 2) {
+					attron(COLOR_PAIR(2));
+					mvprintw(8 + i, 11 + j, "#");
+					attroff(COLOR_PAIR(2));
+				}
+				else if (map1.map[i][j] == 3) {
+					attron(COLOR_PAIR(3));
+					mvprintw(8 + i, 11 + j, "$");
+					attroff(COLOR_PAIR(3));
+				}
+				else if (map1.map[i][j] == 4) {
+					attron(COLOR_PAIR(4));
+					mvprintw(8 + i, 11 + j, " ");				
+					attroff(COLOR_PAIR(4));
+				}
+				else if (map1.map[i][j] == 5) {
+					attron(COLOR_PAIR(4));
+					mvprintw(8 + i, 11 + j, "C");				
+					attroff(COLOR_PAIR(4));
+				}
+			}
+
+		}
 	
+	}
+*/
+
+
+
+
+	refresh();
+
+	curs_set(0);
+	
+	int ch;
+	while (true) {
+		keypad(stdscr, true);
+		//PrintMap();
+		ch = getch();
+		if (ch == KEY_UP) {
+			map1.move(72);
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (map1.map[i][j] == 0) {
+						attron(COLOR_PAIR(0));
+						mvprintw(8 + i, 11 + j, " ");
+						attroff(COLOR_PAIR(0));
+					}
+					else if (map1.map[i][j] == 1) {
+						attron(COLOR_PAIR(1));
+						mvprintw(8 + i, 11 + j, " ");
+						attroff(COLOR_PAIR(1));
+					}
+					else if (map1.map[i][j] == 2) {
+						attron(COLOR_PAIR(2));
+						mvprintw(8 + i, 11 + j, "#");
+						attroff(COLOR_PAIR(2));
+					}
+					else if (map1.map[i][j] == 3) {
+						attron(COLOR_PAIR(3));
+						mvprintw(8 + i, 11 + j, "$");
+						attroff(COLOR_PAIR(3));
+					}
+					else if (map1.map[i][j] == 4) {
+						attron(COLOR_PAIR(4));
+						mvprintw(8 + i, 11 + j, " ");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map1.map[i][j] == 5) {
+						attron(COLOR_PAIR(4));
+						mvprintw(8 + i, 11 + j, "C");				
+						attroff(COLOR_PAIR(4));
+					}
+				}
+
+			}
+		}
+		else if (ch == KEY_LEFT) {
+			map1.move(75);
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (map1.map[i][j] == 0) {
+						attron(COLOR_PAIR(0));
+						mvprintw(8 + i, 11 + j, " ");
+						attroff(COLOR_PAIR(0));
+					}
+					else if (map1.map[i][j] == 1) {
+						attron(COLOR_PAIR(1));
+						mvprintw(8 + i, 11 + j, " ");
+						attroff(COLOR_PAIR(1));
+					}
+					else if (map1.map[i][j] == 2) {
+						attron(COLOR_PAIR(2));
+						mvprintw(8 + i, 11 + j, "#");
+						attroff(COLOR_PAIR(2));
+					}
+					else if (map1.map[i][j] == 3) {
+						attron(COLOR_PAIR(3));
+						mvprintw(8 + i, 11 + j, "$");
+						attroff(COLOR_PAIR(3));
+					}
+					else if (map1.map[i][j] == 4) {
+						attron(COLOR_PAIR(4));
+						mvprintw(8 + i, 11 + j, " ");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map1.map[i][j] == 5) {
+						attron(COLOR_PAIR(4));
+						mvprintw(8 + i, 11 + j, "C");				
+						attroff(COLOR_PAIR(4));
+					}
+				}
+
+			}
+		}
+		else if (ch == KEY_RIGHT) {
+			map1.move(77);
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (map1.map[i][j] == 0) {
+						attron(COLOR_PAIR(0));
+						mvprintw(8 + i, 11 + j, " ");
+						attroff(COLOR_PAIR(0));
+					}
+					else if (map1.map[i][j] == 1) {
+						attron(COLOR_PAIR(1));
+						mvprintw(8 + i, 11 + j, " ");
+						attroff(COLOR_PAIR(1));
+					}
+					else if (map1.map[i][j] == 2) {
+						attron(COLOR_PAIR(2));
+						mvprintw(8 + i, 11 + j, "#");
+						attroff(COLOR_PAIR(2));
+					}
+					else if (map1.map[i][j] == 3) {
+						attron(COLOR_PAIR(3));
+						mvprintw(8 + i, 11 + j, "$");
+						attroff(COLOR_PAIR(3));
+					}
+					else if (map1.map[i][j] == 4) {
+						attron(COLOR_PAIR(4));
+						mvprintw(8 + i, 11 + j, " ");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map1.map[i][j] == 5) {
+						attron(COLOR_PAIR(4));
+						mvprintw(8 + i, 11 + j, "C");				
+						attroff(COLOR_PAIR(4));
+					}
+				}
+
+			}
+		}
+		else if (ch == KEY_DOWN) {
+			map1.move(80);
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (map1.map[i][j] == 0) {
+						attron(COLOR_PAIR(0));
+						mvprintw(8 + i, 11 + j, " ");
+						attroff(COLOR_PAIR(0));
+					}
+					else if (map1.map[i][j] == 1) {
+						attron(COLOR_PAIR(1));
+						mvprintw(8 + i, 11 + j, " ");
+						attroff(COLOR_PAIR(1));
+					}
+					else if (map1.map[i][j] == 2) {
+						attron(COLOR_PAIR(2));
+						mvprintw(8 + i, 11 + j, "#");
+						attroff(COLOR_PAIR(2));
+					}
+					else if (map1.map[i][j] == 3) {
+						attron(COLOR_PAIR(3));
+						mvprintw(8 + i, 11 + j, "$");
+						attroff(COLOR_PAIR(3));
+					}
+					else if (map1.map[i][j] == 4) {
+						attron(COLOR_PAIR(4));
+						mvprintw(8 + i, 11 + j, " ");				
+						attroff(COLOR_PAIR(4));
+					}
+					else if (map1.map[i][j] == 5) {
+						attron(COLOR_PAIR(4));
+						mvprintw(8 + i, 11 + j, "C");				
+						attroff(COLOR_PAIR(4));
+					}
+				}
+
+			}
+		}	
+	}
+
+
+
 	getch();
 	delwin(win1); // win1 소멸
 	endwin(); // ncurses mode 종료
