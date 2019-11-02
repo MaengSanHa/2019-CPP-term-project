@@ -13,37 +13,36 @@
 6 : Box on destination
 */
 
-class Map{
-    public:
-        // Constructor
+class Map
+{
+public:
+    // Constructor
 
-        // Default Constructor
-        Map();
+    // Default Constructor
+    Map();
 
-        // Copy Constructor
-        Map(int map_of_stage[10][10]);
-    
-        // Member Functions
-        Map& setElement(int target_x, int target_y, int input);
-        Map& setCharacter(int target_x, int target_y);
-        Map& move(char arrow);
-        Map& find_character();
-        Map& do_nothing();
-        Map& countDest();
-        Map& countBoxOnDest();
-        Map& increaseNumStep();
-        Map& increaseNumPush();
+    // Copy Constructor
+    Map(int map_of_stage[10][10]);
 
-        // Member Variables
-        int numDest;
-        int numBoxOnDest;
-        int map[10][10];
-        int default_map[10][10];
-        int location_of_character[2];
-        int numStep;
-        int numPush;
+    // Member Functions
+    Map &setElement(int target_x, int target_y, int input);
+    Map &setCharacter(int target_x, int target_y);
+    Map &move(char arrow);
+    Map &find_character();
+    Map &do_nothing();
+    Map &countDest();
+    Map &countBoxOnDest();
+    Map &increaseNumStep();
+    Map &increaseNumPush();
 
+    // Member Variables
+    int numDest;
+    int numBoxOnDest;
+    int map[10][10];
+    int default_map[10][10];
+    int location_of_character[2];
+    int numStep;
+    int numPush;
 };
-
 
 #endif
