@@ -1,18 +1,13 @@
-/*
-터미널 창의 셀 간격 너비를 1.80으로 바꾼다
-level 1, 2, 3을 모두 완료하면 success창이 뜨고 게임이 종료됨
-창을 넘길 때에는 엔터키를 눌러주세요!
-*/
-
 #include <ncurses.h>
 #include <clocale>
 #include "Map.cpp"
+
 using namespace std;
 
-int main()
+int main(int argc, char **argv)
 {
 	setlocale(LC_ALL, "");
-	
+
 	/*
 	0 : Null space
 	1 : Wall
@@ -22,7 +17,7 @@ int main()
 	5 : Character
 	6 : Box on destination
 	*/
-	
+
 	int mapOne[10][10] = {
 		{4, 4, 1, 1, 1, 1, 4, 4, 4, 4},
 		{4, 4, 1, 3, 0, 1, 1, 4, 4, 4},
@@ -33,22 +28,20 @@ int main()
 		{4, 4, 4, 1, 0, 0, 0, 0, 1, 4},
 		{4, 4, 4, 1, 0, 0, 1, 1, 1, 4},
 		{4, 4, 4, 1, 1, 1, 1, 4, 4, 4},
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
-    };
-    
-    int mapTwo[10][10] = {
+		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}};
+
+	int mapTwo[10][10] = {
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
 		{4, 4, 1, 1, 1, 1, 1, 4, 4, 4},
 		{4, 4, 1, 0, 0, 0, 1, 4, 4, 4},
 		{4, 4, 1, 3, 3, 3, 1, 4, 4, 4},
-		{4, 4, 1, 0, 0, 0, 1, 1, 4 ,4},
+		{4, 4, 1, 0, 0, 0, 1, 1, 4, 4},
 		{4, 4, 1, 0, 0, 0, 0, 1, 4, 4},
-		{4 ,4, 1, 0, 0, 0, 0, 1, 4, 4},
+		{4, 4, 1, 0, 0, 0, 0, 1, 4, 4},
 		{4, 4, 1, 1, 1, 1, 1, 1, 4, 4},
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
-	};
-	
+		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}};
+
 	int mapThree[10][10] = {
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
@@ -59,12 +52,11 @@ int main()
 		{4, 1, 1, 1, 1, 1, 0, 0, 1, 4},
 		{4, 4, 4, 4, 4, 1, 1, 1, 1, 4},
 		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
-	};
-    
-    Map map1(mapOne);
-    Map map2(mapTwo);
-    Map map3(mapThree);
+		{4, 4, 4, 4, 4, 4, 4, 4, 4, 4}};
+
+	Map map1(mapOne);
+	Map map2(mapTwo);
+	Map map3(mapThree);
 
 	WINDOW *win1; // Map1
 	WINDOW *win2; // Map2
@@ -95,9 +87,10 @@ int main()
 
 	win1 = newwin(12, 12, 16, 19);
 	wbkgd(win1, COLOR_PAIR(10));
-	wattron(win1, COLOR_PAIR(10));;
+	wattron(win1, COLOR_PAIR(10));
+	;
 	wborder(win1, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-	
+
 	wrefresh(win1); // 화면 업데이트. win1 화면 실제 출력
 
 	// 박스랑 캐릭터 초기 위치 설정
@@ -105,60 +98,69 @@ int main()
 	map1.setElement(4, 4, 2);
 	map1.setElement(5, 5, 2);
 	map1.setCharacter(2, 4);
- 	
- 	// 처음 맵 출력 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			if (map1.map[i][j] == 0) {
+
+	// 처음 맵 출력
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (map1.map[i][j] == 0)
+			{
 				attron(COLOR_PAIR(0));
 				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(0));
 			}
-			else if (map1.map[i][j] == 1) {
+			else if (map1.map[i][j] == 1)
+			{
 				attron(COLOR_PAIR(1));
 				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(1));
 			}
-			else if (map1.map[i][j] == 2) {
+			else if (map1.map[i][j] == 2)
+			{
 				attron(COLOR_PAIR(2));
 				mvprintw(17 + i, 20 + j, "\u2752");
 				attroff(COLOR_PAIR(2));
 			}
-			else if (map1.map[i][j] == 3) {
+			else if (map1.map[i][j] == 3)
+			{
 				attron(COLOR_PAIR(3));
 				mvprintw(17 + i, 20 + j, "\u2B1A");
 				attroff(COLOR_PAIR(3));
 			}
-			else if (map1.map[i][j] == 4) {
+			else if (map1.map[i][j] == 4)
+			{
 				attron(COLOR_PAIR(4));
-				mvprintw(17 + i, 20 + j, " ");				
+				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(4));
 			}
-			else if (map1.map[i][j] == 5) {
+			else if (map1.map[i][j] == 5)
+			{
 				attron(COLOR_PAIR(4));
-				mvprintw(17 + i, 20 + j, "C");				
+				mvprintw(17 + i, 20 + j, "C");
 				attroff(COLOR_PAIR(4));
 			}
-			else if (map1.map[i][j] == 6) {
+			else if (map1.map[i][j] == 6)
+			{
 				attron(COLOR_PAIR(5));
-				mvprintw(17 + i, 20 + j, "\u2752");				
+				mvprintw(17 + i, 20 + j, "\u2752");
 				attroff(COLOR_PAIR(5));
 			}
 		}
 	}
-	
+
 	win4 = newwin(5, 14, 7, 9);
 	wbkgd(win4, COLOR_PAIR(3));
 	wattron(win4, COLOR_PAIR(3));
 	//mvwprintw(win4, 9, 11, "STEP : &d", map1.numStep);
-	mvprintw(9,12,"Step : %d",map1.numStep);
+	mvprintw(9, 12, "Step : %d", map1.numStep);
 	wborder(win4, '|', '|', '-', '-', '+', '+', '+', '+');
 	wrefresh(win4); // 화면 업데이트. win4 화면 실제 출력
-	
+
 	win5 = newwin(5, 14, 7, 27);
 	wbkgd(win5, COLOR_PAIR(3));
 	wattron(win5, COLOR_PAIR(3));
-	mvprintw(9,30,"PUSH : %d",map1.numPush);
+	mvprintw(9, 30, "PUSH : %d", map1.numPush);
 	wborder(win5, '|', '|', '-', '-', '+', '+', '+', '+');
 	wrefresh(win5); // 화면 업데이트. win5 화면 실제 출력
 
@@ -166,190 +168,229 @@ int main()
 
 	curs_set(0);
 	int ch;
-	
-	while (map1.numDest != map1.numBoxOnDest) {
+
+	while (map1.numDest != map1.numBoxOnDest)
+	{
 		keypad(stdscr, true);
 		//PrintMap();
 		ch = getch();
-		if (ch == KEY_UP) {
+		if (ch == KEY_UP)
+		{
 			map1.move(72); // 위
 			// 바뀔 때마다 맵 출력
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map1.map[i][j] == 0) {
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map1.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map1.map[i][j] == 1) {
+					else if (map1.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map1.map[i][j] == 2) {
+					else if (map1.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map1.map[i][j] == 3) {
+					else if (map1.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map1.map[i][j] == 4) {
+					else if (map1.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map1.map[i][j] == 5) {
+					else if (map1.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map1.map[i][j] == 6) {
+					else if (map1.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
-			mvprintw(9,12,"Step : %d",map1.numStep);
-			mvprintw(9,30,"PUSH : %d",map1.numPush);
+			mvprintw(9, 12, "Step : %d", map1.numStep);
+			mvprintw(9, 30, "PUSH : %d", map1.numPush);
 		}
-		else if (ch == KEY_LEFT) {
-			map1.move(75); // 왼쪽 
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map1.map[i][j] == 0) {
+		else if (ch == KEY_LEFT)
+		{
+			map1.move(75); // 왼쪽
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map1.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map1.map[i][j] == 1) {
+					else if (map1.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map1.map[i][j] == 2) {
+					else if (map1.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map1.map[i][j] == 3) {
+					else if (map1.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map1.map[i][j] == 4) {
+					else if (map1.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map1.map[i][j] == 5) {
+					else if (map1.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map1.map[i][j] == 6) {
+					else if (map1.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
-
 			}
-			mvprintw(9,12,"Step : %d",map1.numStep);
-			mvprintw(9,30,"PUSH : %d",map1.numPush);
-
+			mvprintw(9, 12, "Step : %d", map1.numStep);
+			mvprintw(9, 30, "PUSH : %d", map1.numPush);
 		}
-		else if (ch == KEY_RIGHT) {
-			map1.move(77); // 오른쪽 
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map1.map[i][j] == 0) {
+		else if (ch == KEY_RIGHT)
+		{
+			map1.move(77); // 오른쪽
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map1.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map1.map[i][j] == 1) {
+					else if (map1.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map1.map[i][j] == 2) {
+					else if (map1.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map1.map[i][j] == 3) {
+					else if (map1.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map1.map[i][j] == 4) {
+					else if (map1.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map1.map[i][j] == 5) {
+					else if (map1.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map1.map[i][j] == 6) {
+					else if (map1.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
-			mvprintw(9,12,"Step : %d",map1.numStep);
-			mvprintw(9,30,"PUSH : %d",map1.numPush);
+			mvprintw(9, 12, "Step : %d", map1.numStep);
+			mvprintw(9, 30, "PUSH : %d", map1.numPush);
 		}
-		else if (ch == KEY_DOWN) {
+		else if (ch == KEY_DOWN)
+		{
 			map1.move(80); // 아래
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map1.map[i][j] == 0) {
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map1.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map1.map[i][j] == 1) {
+					else if (map1.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map1.map[i][j] == 2) {
+					else if (map1.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map1.map[i][j] == 3) {
+					else if (map1.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map1.map[i][j] == 4) {
+					else if (map1.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map1.map[i][j] == 5) {
+					else if (map1.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map1.map[i][j] == 6) {
+					else if (map1.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
 		}
-		mvprintw(9,12,"Step : %d",map1.numStep);
-		mvprintw(9,30,"PUSH : %d",map1.numPush);	
+		mvprintw(9, 12, "Step : %d", map1.numStep);
+		mvprintw(9, 30, "PUSH : %d", map1.numPush);
 	}
 
 	//두번째맵
@@ -368,46 +409,55 @@ int main()
 	map2.setElement(4, 4, 2);
 	map2.setElement(4, 5, 2);
 	map2.setCharacter(6, 4);
- 	map2.numStep=0;
- 	map2.numPush=0;
- 	mvprintw(9,12,"Step : %d ",map2.numStep);
-	mvprintw(9,30,"PUSH : %d ",map2.numPush);
- 	// 처음 맵 출력 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			if (map2.map[i][j] == 0) {
+	map2.numStep = 0;
+	map2.numPush = 0;
+	mvprintw(9, 12, "Step : %d ", map2.numStep);
+	mvprintw(9, 30, "PUSH : %d ", map2.numPush);
+	// 처음 맵 출력
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (map2.map[i][j] == 0)
+			{
 				attron(COLOR_PAIR(0));
 				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(0));
 			}
-			else if (map2.map[i][j] == 1) {
+			else if (map2.map[i][j] == 1)
+			{
 				attron(COLOR_PAIR(1));
 				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(1));
 			}
-			else if (map2.map[i][j] == 2) {
+			else if (map2.map[i][j] == 2)
+			{
 				attron(COLOR_PAIR(2));
 				mvprintw(17 + i, 20 + j, "\u2752");
 				attroff(COLOR_PAIR(2));
 			}
-			else if (map2.map[i][j] == 3) {
+			else if (map2.map[i][j] == 3)
+			{
 				attron(COLOR_PAIR(3));
 				mvprintw(17 + i, 20 + j, "\u2B1A");
 				attroff(COLOR_PAIR(3));
 			}
-			else if (map2.map[i][j] == 4) {
+			else if (map2.map[i][j] == 4)
+			{
 				attron(COLOR_PAIR(4));
-				mvprintw(17 + i, 20 + j, " ");				
+				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(4));
 			}
-			else if (map2.map[i][j] == 5) {
+			else if (map2.map[i][j] == 5)
+			{
 				attron(COLOR_PAIR(4));
-				mvprintw(17 + i, 20 + j, "C");				
+				mvprintw(17 + i, 20 + j, "C");
 				attroff(COLOR_PAIR(4));
 			}
-			else if (map2.map[i][j] == 6) {
+			else if (map2.map[i][j] == 6)
+			{
 				attron(COLOR_PAIR(5));
-				mvprintw(17 + i, 20 + j, "\u2752");				
+				mvprintw(17 + i, 20 + j, "\u2752");
 				attroff(COLOR_PAIR(5));
 			}
 		}
@@ -416,187 +466,228 @@ int main()
 	refresh();
 	curs_set(0);
 	int ch2;
-	while (map2.numDest != map2.numBoxOnDest) {
+	while (map2.numDest != map2.numBoxOnDest)
+	{
 		keypad(stdscr, true);
 		//PrintMap();
 		ch2 = getch();
-		if (ch2 == KEY_UP) {
+		if (ch2 == KEY_UP)
+		{
 			map2.move(72); // 위
 			// 바뀔 때마다 맵 출력
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map2.map[i][j] == 0) {
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map2.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map2.map[i][j] == 1) {
+					else if (map2.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map2.map[i][j] == 2) {
+					else if (map2.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map2.map[i][j] == 3) {
+					else if (map2.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map2.map[i][j] == 4) {
+					else if (map2.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map2.map[i][j] == 5) {
+					else if (map2.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map2.map[i][j] == 6) {
+					else if (map2.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
-			mvprintw(9,12,"Step : %d ",map2.numStep);
-			mvprintw(9,30,"PUSH : %d ",map2.numPush);
+			mvprintw(9, 12, "Step : %d ", map2.numStep);
+			mvprintw(9, 30, "PUSH : %d ", map2.numPush);
 		}
-		else if (ch2 == KEY_LEFT) {
-			map2.move(75); // 왼쪽 
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map2.map[i][j] == 0) {
+		else if (ch2 == KEY_LEFT)
+		{
+			map2.move(75); // 왼쪽
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map2.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map2.map[i][j] == 1) {
+					else if (map2.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map2.map[i][j] == 2) {
+					else if (map2.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map2.map[i][j] == 3) {
+					else if (map2.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map2.map[i][j] == 4) {
+					else if (map2.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map2.map[i][j] == 5) {
+					else if (map2.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map2.map[i][j] == 6) {
+					else if (map2.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
-			mvprintw(9,12,"Step : %d ",map2.numStep);
-			mvprintw(9,30,"PUSH : %d ",map2.numPush);
+			mvprintw(9, 12, "Step : %d ", map2.numStep);
+			mvprintw(9, 30, "PUSH : %d ", map2.numPush);
 		}
-		else if (ch2 == KEY_RIGHT) {
-			map2.move(77); // 오른쪽 
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map2.map[i][j] == 0) {
+		else if (ch2 == KEY_RIGHT)
+		{
+			map2.move(77); // 오른쪽
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map2.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map2.map[i][j] == 1) {
+					else if (map2.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map2.map[i][j] == 2) {
+					else if (map2.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map2.map[i][j] == 3) {
+					else if (map2.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map2.map[i][j] == 4) {
+					else if (map2.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map2.map[i][j] == 5) {
+					else if (map2.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map2.map[i][j] == 6) {
+					else if (map2.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
-			mvprintw(9,12,"Step : %d ",map2.numStep);
-			mvprintw(9,30,"PUSH : %d ",map2.numPush);
+			mvprintw(9, 12, "Step : %d ", map2.numStep);
+			mvprintw(9, 30, "PUSH : %d ", map2.numPush);
 		}
-		else if (ch2 == KEY_DOWN) {
+		else if (ch2 == KEY_DOWN)
+		{
 			map2.move(80); // 아래
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map2.map[i][j] == 0) {
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map2.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map2.map[i][j] == 1) {
+					else if (map2.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map2.map[i][j] == 2) {
+					else if (map2.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map2.map[i][j] == 3) {
+					else if (map2.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map2.map[i][j] == 4) {
+					else if (map2.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map2.map[i][j] == 5) {
+					else if (map2.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map2.map[i][j] == 6) {
+					else if (map2.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
-			mvprintw(9,12,"Step : %d ",map2.numStep);
-			mvprintw(9,30,"PUSH : %d ",map2.numPush);
-		}	
+			mvprintw(9, 12, "Step : %d ", map2.numStep);
+			mvprintw(9, 30, "PUSH : %d ", map2.numPush);
+		}
 	}
 
 	//세번째맵
@@ -605,7 +696,7 @@ int main()
 	mvprintw(2, 1, "------------------------------------------------");
 
 	win3 = newwin(12, 12, 16, 19);
-	
+
 	wbkgd(win3, COLOR_PAIR(10));
 	wattron(win3, COLOR_PAIR(10));
 	wborder(win3, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
@@ -616,46 +707,55 @@ int main()
 	map3.setElement(4, 5, 2);
 	map3.setElement(4, 6, 2);
 	map3.setCharacter(4, 7);
- 	map3.numStep=0;
- 	map3.numPush=0;
- 	mvprintw(9,12,"Step : %d ",map3.numStep);
-	mvprintw(9,30,"PUSH : %d ",map3.numPush);
- 	// 처음 맵 출력 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			if (map3.map[i][j] == 0) {
+	map3.numStep = 0;
+	map3.numPush = 0;
+	mvprintw(9, 12, "Step : %d ", map3.numStep);
+	mvprintw(9, 30, "PUSH : %d ", map3.numPush);
+	// 처음 맵 출력
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (map3.map[i][j] == 0)
+			{
 				attron(COLOR_PAIR(0));
 				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(0));
 			}
-			else if (map3.map[i][j] == 1) {
+			else if (map3.map[i][j] == 1)
+			{
 				attron(COLOR_PAIR(1));
 				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(1));
 			}
-			else if (map3.map[i][j] == 2) {
+			else if (map3.map[i][j] == 2)
+			{
 				attron(COLOR_PAIR(2));
 				mvprintw(17 + i, 20 + j, "\u2752");
 				attroff(COLOR_PAIR(2));
 			}
-			else if (map3.map[i][j] == 3) {
+			else if (map3.map[i][j] == 3)
+			{
 				attron(COLOR_PAIR(3));
 				mvprintw(17 + i, 20 + j, "\u2B1A");
 				attroff(COLOR_PAIR(3));
 			}
-			else if (map3.map[i][j] == 4) {
+			else if (map3.map[i][j] == 4)
+			{
 				attron(COLOR_PAIR(4));
-				mvprintw(17 + i, 20 + j, " ");				
+				mvprintw(17 + i, 20 + j, " ");
 				attroff(COLOR_PAIR(4));
 			}
-			else if (map3.map[i][j] == 5) {
+			else if (map3.map[i][j] == 5)
+			{
 				attron(COLOR_PAIR(4));
-				mvprintw(17 + i, 20 + j, "C");				
+				mvprintw(17 + i, 20 + j, "C");
 				attroff(COLOR_PAIR(4));
 			}
-			else if (map3.map[i][j] == 6) {
+			else if (map3.map[i][j] == 6)
+			{
 				attron(COLOR_PAIR(5));
-				mvprintw(17 + i, 20 + j, "\u2752");				
+				mvprintw(17 + i, 20 + j, "\u2752");
 				attroff(COLOR_PAIR(5));
 			}
 		}
@@ -664,204 +764,245 @@ int main()
 	refresh();
 	curs_set(0);
 	int ch3;
-	while (map3.numDest != map3.numBoxOnDest) {
+	while (map3.numDest != map3.numBoxOnDest)
+	{
 		keypad(stdscr, true);
 		//PrintMap();
 		ch3 = getch();
-		if (ch3 == KEY_UP) {
+		if (ch3 == KEY_UP)
+		{
 			map3.move(72); // 위
 			// 바뀔 때마다 맵 출력
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map3.map[i][j] == 0) {
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map3.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map3.map[i][j] == 1) {
+					else if (map3.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map3.map[i][j] == 2) {
+					else if (map3.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map3.map[i][j] == 3) {
+					else if (map3.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map3.map[i][j] == 4) {
+					else if (map3.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map3.map[i][j] == 5) {
+					else if (map3.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map3.map[i][j] == 6) {
+					else if (map3.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
-			mvprintw(9,12,"Step : %d ",map3.numStep);
-			mvprintw(9,30,"PUSH : %d ",map3.numPush);
+			mvprintw(9, 12, "Step : %d ", map3.numStep);
+			mvprintw(9, 30, "PUSH : %d ", map3.numPush);
 		}
-		else if (ch3 == KEY_LEFT) {
-			map3.move(75); // 왼쪽 
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map3.map[i][j] == 0) {
+		else if (ch3 == KEY_LEFT)
+		{
+			map3.move(75); // 왼쪽
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map3.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map3.map[i][j] == 1) {
+					else if (map3.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map3.map[i][j] == 2) {
+					else if (map3.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map3.map[i][j] == 3) {
+					else if (map3.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map3.map[i][j] == 4) {
+					else if (map3.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map3.map[i][j] == 5) {
+					else if (map3.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map3.map[i][j] == 6) {
+					else if (map3.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
-			mvprintw(9,12,"Step : %d ",map3.numStep);
-			mvprintw(9,30,"PUSH : %d ",map3.numPush);
+			mvprintw(9, 12, "Step : %d ", map3.numStep);
+			mvprintw(9, 30, "PUSH : %d ", map3.numPush);
 		}
-		else if (ch3 == KEY_RIGHT) {
-			map3.move(77); // 오른쪽 
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map3.map[i][j] == 0) {
+		else if (ch3 == KEY_RIGHT)
+		{
+			map3.move(77); // 오른쪽
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map3.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map3.map[i][j] == 1) {
+					else if (map3.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map3.map[i][j] == 2) {
+					else if (map3.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map3.map[i][j] == 3) {
+					else if (map3.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map3.map[i][j] == 4) {
+					else if (map3.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map3.map[i][j] == 5) {
+					else if (map3.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map3.map[i][j] == 6) {
+					else if (map3.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
-			mvprintw(9,12,"Step : %d ",map3.numStep);
-			mvprintw(9,30,"PUSH : %d ",map3.numPush);
+			mvprintw(9, 12, "Step : %d ", map3.numStep);
+			mvprintw(9, 30, "PUSH : %d ", map3.numPush);
 		}
-		else if (ch3 == KEY_DOWN) {
+		else if (ch3 == KEY_DOWN)
+		{
 			map3.move(80); // 아래
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (map3.map[i][j] == 0) {
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (map3.map[i][j] == 0)
+					{
 						attron(COLOR_PAIR(0));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(0));
 					}
-					else if (map3.map[i][j] == 1) {
+					else if (map3.map[i][j] == 1)
+					{
 						attron(COLOR_PAIR(1));
 						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(1));
 					}
-					else if (map3.map[i][j] == 2) {
+					else if (map3.map[i][j] == 2)
+					{
 						attron(COLOR_PAIR(2));
 						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(2));
 					}
-					else if (map3.map[i][j] == 3) {
+					else if (map3.map[i][j] == 3)
+					{
 						attron(COLOR_PAIR(3));
 						mvprintw(17 + i, 20 + j, "\u2B1A");
 						attroff(COLOR_PAIR(3));
 					}
-					else if (map3.map[i][j] == 4) {
+					else if (map3.map[i][j] == 4)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, " ");				
+						mvprintw(17 + i, 20 + j, " ");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map3.map[i][j] == 5) {
+					else if (map3.map[i][j] == 5)
+					{
 						attron(COLOR_PAIR(4));
-						mvprintw(17 + i, 20 + j, "C");				
+						mvprintw(17 + i, 20 + j, "C");
 						attroff(COLOR_PAIR(4));
 					}
-					else if (map3.map[i][j] == 6) {
+					else if (map3.map[i][j] == 6)
+					{
 						attron(COLOR_PAIR(5));
-						mvprintw(17 + i, 20 + j, "\u2752");				
+						mvprintw(17 + i, 20 + j, "\u2752");
 						attroff(COLOR_PAIR(5));
 					}
 				}
 			}
-			mvprintw(9,12,"Step : %d ",map3.numStep);
-			mvprintw(9,30,"PUSH : %d ",map3.numPush);
-		}	
+			mvprintw(9, 12, "Step : %d ", map3.numStep);
+			mvprintw(9, 30, "PUSH : %d ", map3.numPush);
+		}
 	}
 
 	getch();
-	delwin(win3); // win3 소멸
-	delwin(win4); 
+	delwin(win3); // destroy win3
+	delwin(win4);
 	delwin(win5);
-	 
+
 	win6 = newwin(31, 41, 5, 5);
 	wbkgd(win6, COLOR_PAIR(10));
 	wattron(win6, COLOR_PAIR(3));
 	mvwprintw(win6, 15, 17, "SUCCESS!");
-	wborder(win6, '@','@','@','@','@','@','@','@');
+	wborder(win6, '@', '@', '@', '@', '@', '@', '@', '@');
 	wrefresh(win6);
 	getch();
 	delwin(win6);
-	
-	endwin(); // ncurses mode 종료
-	
+
+	endwin(); // end ncurses mode
+
 	return 0;
-} // end main
+} // main
