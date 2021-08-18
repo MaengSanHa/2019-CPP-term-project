@@ -1,3 +1,3 @@
-# Sokoban
+# SOKOBAN
 
-KMU CS C++ programming term project: Push Box Game
+KMU CS C++ Programming term project: Push Box Game
